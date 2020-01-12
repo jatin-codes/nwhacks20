@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
-
 import * as ImagePicker from 'expo-image-picker';
+
+import * as firebase from 'firebase';
+import ApiKeys from './constants/ApiKeys';
 
 export default class LinkScreen extends React.Component {
 
@@ -20,6 +22,10 @@ export default class LinkScreen extends React.Component {
       takeImageText: null,
       photo: null,
       status: null,
+    }
+
+    if(!firebase.apps.length){
+      firebase.initializeApp(ApiKeys.FirebaseConfig);
     }
 
     this.setState = this.setState.bind(this);
@@ -44,6 +50,28 @@ export default class LinkScreen extends React.Component {
 
   async componentWillUnmount(){
   }
+
+  async postData(image){
+    var data = new FormData();
+
+    data.append(
+      image, {
+        uri: image,
+        type: 'image/jpg'
+      },
+    )
+
+    data.append("image_name", "asudy")
+
+    const response = await fetch(image);
+    const blob = await response.blob();
+
+    var ref = firebase.storage().ref().child("images/" + data);
+
+    return ref.put(blob);
+  }
+
+
 
   // useEffect = (() => {
   //   (async () => {
@@ -79,7 +107,7 @@ export default class LinkScreen extends React.Component {
     if (this.camera) {
       const data = await this.camera.takePictureAsync()
       .then(data => {
-        console.log('data uri:' + data.uri);
+        this.postData(data.uri);
       });
       }
   };
@@ -88,7 +116,7 @@ export default class LinkScreen extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     }).then(data => {
-      console.log('data uri:' + data.uri);
+      this.postData(data.uri);
     });
   }
 
