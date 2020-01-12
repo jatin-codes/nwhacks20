@@ -1,27 +1,202 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
-export default function LinksScreen() {
+import * as firebase from 'firebase';
+import ApiKeys from './constants/ApiKeys';
+
+export default class LinkScreen extends React.Component {
+
+  constructor(props){
+    super();
+    this.state = {
+      hasPermission: null,
+      setHasPermission: null,
+      type: Camera.Constants.Type.back,
+      setType: Camera.Constants.Type.back,
+      focusedScreen: false,
+      // camera: null,
+      onPictureSaved: null,
+      takeImageText: null,
+      photo: null,
+      status: null,
+    }
+
+    if(!firebase.apps.length){
+      firebase.initializeApp(ApiKeys.FirebaseConfig);
+    }
+
+    this.setState = this.setState.bind(this);
+    this.takePicture = this.takePicture.bind(this);
+  }
+
+  async componentDidMount(){
+    const { navigation } = this.props;
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    
+    this.setState({
+      status: 'granted'
+    })
+
+    navigation.addListener('willFocus', () =>
+      this.setState({ focusedScreen: true })
+    );
+    navigation.addListener('willBlur', () =>
+      this.setState({ focusedScreen: false })
+    );
+  }
+
+  async componentWillUnmount(){
+  }
+
+  async postData(image){
+    var data = new FormData();
+
+    data.append(
+      image, {
+        uri: image,
+        type: 'image/jpg'
+      },
+    )
+
+    data.append("image_name", "asudy")
+
+    const response = await fetch(image);
+    const blob = await response.blob();
+
+    var ref = firebase.storage().ref().child("images/" + data);
+
+    return ref.put(blob);
+  }
+
+
+
+  // useEffect = (() => {
+  //   (async () => {
+      
+  // }, []);
+
+
+//   takePicture = () => {
+    // 
+//     this.setState({
+//         takeImageText: "... PROCESSING PICTURE ..."
+//     }); 
+//     Camera.takePictureAsync({ skipProcessing: true }).then((data) => {
+//         this.setState({
+//             takeImageText: "PICTURE TAKEN",
+//             photo: data.uri
+//         }, console.log(data.uri))
+//     })
+// }
+// 
+  // takePicture = async() => {
+  //   console.log('yes', this.camera);
+  //   if (this.camera) {
+  //     const data = await this.camera.takePictureAsync()
+  //     .then(data => {
+  //       console.log('data uri:' + data.uri);
+  //       saveImage(data.uri);
+  //     });
+  //     }
+  // };
+
+  async takePicture() {
+    if (this.camera) {
+      const data = await this.camera.takePictureAsync()
+      .then(data => {
+        this.postData(data.uri);
+      });
+      }
+  };
+
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    }).then(data => {
+      this.postData(data.uri);
+    });
+  }
+
+
+  render(){
+
+    const {type, status, setType, hasPermission, setHasPermission} = this.state;
+
+  // if (status === null) {
+  //   return <View />;
+  // }
+  if (status === false) {
+    return <Text>No access to camera</Text>;
+  }
   return (
-    <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
-      <ExpoLinksView />
-    </ScrollView>
+    // <View style={{ flex: 1 }}>
+      this.state.focusedScreen ? 
+      (
+        <Camera style={{ flex: 1 }} type={this.state.type}
+        ref={ref => {
+          this.camera = ref;
+        }}
+        >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              backgroundColor: 'transparent'
+            }}
+            onPress={() => {
+              this.setState({
+                type: type ? Camera.Constants.Type.back : Camera.Constants.Type.front
+              })
+            }}
+            >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              backgroundColor: 'transparent'
+            }}
+            // onPress={() => this.takePicture()}
+            onPress={this.takePicture}
+            >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Click </Text>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              backgroundColor: 'transparent'
+            }}
+            // onPress={() => this.takePicture()}
+            onPress={this.pickImage}
+            >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Pick image </Text>
+          </TouchableOpacity>
+
+        </View>
+      </Camera>
+      )
+      : 
+      <View>
+
+      </View>
+    // </View>
   );
+  }
 }
-
-LinksScreen.navigationOptions = {
-  title: 'Links',
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
