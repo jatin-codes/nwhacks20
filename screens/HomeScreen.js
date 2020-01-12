@@ -17,13 +17,16 @@ export default class HomeScreen extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-      <ImageBackground
-        source={'../images/Login.jpg'}
-        style={{width: '100%', height: '100%'}}
-      >
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
+
+          <View style={styles.logoContainer}>
+            <Image 
+              style={styles.logo}
+              source={{uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2FAsset%201%404x%20(1).png?alt=media&token=5f4d3954-2fa9-4e4a-a551-a8dc0f20a9ab'}}
+            />
+          </View>
           <View style={styles.welcomeContainer}>
             <View style={styles.imageContainer}>
               <Image
@@ -32,11 +35,41 @@ export default class HomeScreen extends React.Component{
                 uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
               }}
               />
+
+              <View style={styles.caption}>
+                <Text>Hacking away!!!!!!!!******* :P</Text>
+              </View>
+            </View>
+
+
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
+              }}
+              />
+
+              <View style={styles.caption}>
+                <Text>Hacking away!!!!!!!!******* :P</Text>
+              </View>
+            </View>
+
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
+              }}
+              />
+
+              <View style={styles.caption}>
+                <Text>Hacking away!!!!!!!!******* :P</Text>
+              </View>
             </View>
           </View>
   
         </ScrollView>
-        </ImageBackground>
       </View>
     );
   }
@@ -136,5 +169,22 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     padding: 20,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+    margin: 12
+  },
+  logo: {
+    margin: 10,
+    marginLeft: 25,
+    width: 300,
+    height: 80
+  },
+  logoContainer: {
+    margin: 10,
+    padding: 10
+  },
+  caption: {
+    padding: 10,
+    fontSize: 22
   }
 });
