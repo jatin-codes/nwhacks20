@@ -1,27 +1,82 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
 
-export default function LinksScreen() {
+export default class LinkScreen extends React.Component {
+
+  constructor(props){
+    super();
+    this.state = {
+      hasPermission: null,
+      setHasPermission: null,
+      type: Camera.Constants.Type.back,
+      setType: Camera.Constants.Type.back,
+      focusedScreen: false
+    }
+  }
+
+  componentDidMount(){
+    const { navigation } = this.props;
+    navigation.addListener('willFocus', () =>
+      this.setState({ focusedScreen: true })
+    );
+    navigation.addListener('willBlur', () =>
+      this.setState({ focusedScreen: false })
+    );
+  }
+
+  render(){
+
+    const {type, setType, hasPermission, setHasPermission} = this.state;
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Camera.requestPermissionsAsync();
+  //     setHasPermission(status === 'granted');
+  //   })();
+  // }, []);
+
+  // if (hasPermission === null) {
+  //   return <View />;
+  // }
+  // if (hasPermission === false) {
+  //   return <Text>No access to camera</Text>;
+  // }
   return (
-    <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
-      <ExpoLinksView />
-    </ScrollView>
+    // <View style={{ flex: 1 }}>
+      this.state.focusedScreen ? 
+      (
+        <Camera style={{ flex: 1 }} type={this.state.type}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+          }}>
+          <TouchableOpacity
+            style={{
+              flex: 0.1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+            }}
+            // onPress={() => {
+            //   setType(
+            //     type === Camera.Constants.Type.back
+            //       ? Camera.Constants.Type.front
+            //       : Camera.Constants.Type.back
+            //   );
+            // }}
+            >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
+      )
+      : 
+      <View>
+
+      </View>
+    // </View>
   );
+  }
 }
-
-LinksScreen.navigationOptions = {
-  title: 'Links',
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
