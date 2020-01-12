@@ -25,14 +25,14 @@ export default class HomeScreen extends React.Component{
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
+              }}
+              />
+            </View>
           </View>
   
         </ScrollView>
@@ -49,6 +49,7 @@ HomeScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignContent: 'center',
     backgroundColor: '#fff',
   },
   developmentModeText: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 20,
   },
   welcomeImage: {
@@ -133,4 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  imageContainer: {
+    padding: 20,
+  }
 });

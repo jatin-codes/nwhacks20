@@ -1,14 +1,22 @@
 import React from 'react';
 import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
 
+import ProfScreen from '../profile/index';
+
+// import contactData from './contact.json'
+// import { Container } from 'nat/ive-base';
+
+import Container from './Container';
+
+// import Profile3 from './Profile3'
+
+// const ProfScreen = () => <Profile3 {...contactData} />
+
 export default class ProfileScreen extends React.Component{
     render(){
         return (
             <View style={styles.colorContainer}>
-                {/* <View style={[styles.colorPreview, { backgroundColor: value }]} /> */}
-                <View style={styles.colorTextContainer}>
-                <Text style={styles.sectionContentText}></Text>
-                </View>
+                <Container/>
             </View>
         )
     }
