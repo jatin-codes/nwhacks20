@@ -8,6 +8,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -72,10 +73,39 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+
+// profile screen
+
+const ProfileStack = createStackNavigator(
+  {
+    Profile: ProfileScreen,
+  },
+  config
+);
+
+ProfileStack.navigationOptions = {
+  tabBarLabel: 'Profile',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `person${focused ? '' : '-outline'}`
+          : 'md-person'
+      }
+    />
+  ),
+};
+
+ProfileStack.path = '';
+
+
+
 const tabNavigator = createBottomTabNavigator({
   LinksStack,
   HomeStack,
   SettingsStack,
+  ProfileStack
 });
 
 tabNavigator.path = '';
