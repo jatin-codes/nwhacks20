@@ -4,6 +4,8 @@ import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
+import axios from 'axios';
+
 import * as firebase from 'firebase';
 import ApiKeys from './constants/ApiKeys';
 
@@ -82,6 +84,12 @@ export default class LinkScreen extends React.Component {
 
     var ref = firebase.storage().ref().child("images/" + image_name);
 
+    axios.get('https://linkr.azurewebsites.net').then(x => {
+      if(x){
+        console.log(x);
+      }
+    });
+    
     return ref.put(blob);
   }
 
