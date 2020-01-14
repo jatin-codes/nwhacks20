@@ -46,7 +46,7 @@ export default class HomeScreen extends React.Component{
               <Image
               style={{width: 300, height: 300}}
               source = {{
-                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2F1578870869.992?alt=media&token=f024984f-05ca-40bb-921d-e2a05e330529',
               }}
               />
 
