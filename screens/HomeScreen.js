@@ -7,110 +7,82 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageBackground,
   View,
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
+export default class HomeScreen extends React.Component{
+  render(){
+    return (
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}>
 
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
+          <View style={styles.logoContainer}>
+            <Image 
+              style={styles.logo}
+              source={{uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2FAsset%201%404x%20(1).png?alt=media&token=5f4d3954-2fa9-4e4a-a551-a8dc0f20a9ab'}}
+            />
           </View>
+          <View style={styles.welcomeContainer}>
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2F1578856918.879?alt=media&token=40bc30b7-a1b1-49b8-bbb0-b5449e24cfba',
+              }}
+              />
 
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
-        </View>
+              <View style={styles.caption}>
+                <Text>Ayyyyyyyyyy!!!!!!</Text>
+              </View>
+            </View>
 
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2F1578870869.992?alt=media&token=f024984f-05ca-40bb-921d-e2a05e330529',
+              }}
+              />
 
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
+              <View style={styles.caption}>
+                <Text>Hacking away!!!!!!!!******* :P</Text>
+              </View>
+            </View>
+
+            <View style={styles.imageContainer}>
+              <Image
+              style={{width: 300, height: 300}}
+              source = {{
+                uri: 'https://firebasestorage.googleapis.com/v0/b/nwhacks20-56ead.appspot.com/o/images%2Fstrict%2Fgroup-photo%20(1).jpg?alt=media&token=d89f5c21-4ea6-49bd-a925-085548ac5282',
+              }}
+              />
+
+              <View style={styles.caption}>
+                <Text>Hacking away!!!!!!!!******* :P</Text>
+              </View>
+            </View>
+          </View>
+  
+        </ScrollView>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
 
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignContent: 'center',
     backgroundColor: '#fff',
   },
   developmentModeText: {
@@ -125,7 +97,7 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 20,
   },
   welcomeImage: {
@@ -195,4 +167,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  imageContainer: {
+    padding: 20,
+    backgroundColor: '#eee',
+    borderRadius: 10,
+    margin: 12
+  },
+  logo: {
+    margin: 10,
+    marginLeft: 25,
+    width: 300,
+    height: 80
+  },
+  logoContainer: {
+    margin: 10,
+    padding: 10
+  },
+  caption: {
+    padding: 10,
+    fontSize: 22
+  }
 });

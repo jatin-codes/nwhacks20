@@ -4,8 +4,12 @@ import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 
+import axios from 'axios';
+
 import * as firebase from 'firebase';
 import ApiKeys from './constants/ApiKeys';
+
+import * as Random from 'expo-random';
 
 export default class LinkScreen extends React.Component {
 
@@ -54,20 +58,38 @@ export default class LinkScreen extends React.Component {
   async postData(image){
     var data = new FormData();
 
-    data.append(
-      image, {
-        uri: image,
-        type: 'image/jpg'
-      },
-    )
+    const randomBytes = await Random.getRandomBytesAsync(1);
 
-    data.append("image_name", "asudy")
+    const image_name = new Date().getTime() / 1000;
+    // console.log('DATE', xyyyy)
+
+    // data.append(
+    //   image, {
+    //     uri: image,
+    //     type: 'image/jpg'
+    //   },
+    // )
+
+    // console.log(randomBytes);
+
+    // data.append('image_name', xyyyy);
+
+    // console.log(data);
+
+    // data.append("image_name", randomBytes);
 
     const response = await fetch(image);
     const blob = await response.blob();
 
-    var ref = firebase.storage().ref().child("images/" + data);
 
+    var ref = firebase.storage().ref().child("images/" + image_name);
+
+    axios.get('https://linkr.azurewebsites.net').then(x => {
+      if(x){
+        console.log(x);
+      }
+    });
+    
     return ref.put(blob);
   }
 
